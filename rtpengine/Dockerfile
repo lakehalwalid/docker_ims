@@ -24,10 +24,10 @@ RUN dpkg-checkbuilddeps && \
 RUN cd .. && \
     dpkg -i *.deb
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get install -y linux-headers-$(uname -r) linux-image-$(uname -r) && \
-    module-assistant update && \
-    module-assistant auto-install ngcp-rtpengine-kernel-source
+#ENV DEBIAN_FRONTEND=noninteractive
+#RUN apt-get install -y linux-headers-$(uname -r) linux-image-$(uname -r) && \
+#    module-assistant update && \
+#    module-assistant auto-install ngcp-rtpengine-kernel-source
 
 EXPOSE 2223/udp
 
