@@ -2,21 +2,20 @@ FROM ubuntu:bionic
 
 # Install updates and dependencies
 RUN apt-get update && \
-    apt-get -y install curl net-tools iputils-ping wget subversion
+    apt-get -y install curl net-tools iputils-ping wget subversion python-pip
 
-WORKDIR /usr/local/src
-COPY jdk-checksum /usr/local/src
-COPY jdk-7u80-linux-x64.tar.gz /usr/local/src
-COPY apache-ant-1.9.14-bin.tar.gz /usr/local/src
-RUN apt-get -y install libdigest-sha-perl
-RUN shasum -c jdk-checksum
-RUN mkdir -p /usr/lib/jvm/ && \
-    tar zxf jdk-7u80-linux-x64.tar.gz -C /usr/lib/jvm/ && \
-    update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_80/bin/java 100 && \
-    update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_80/bin/javac 100
+ENV LC_ALL=C
+RUN pip install gdown
+WORKDIR /usr/lib/jvm
+RUN gdown --id 1vgXW2a14wDzlnsu5DKRRIEJ3Yy1e4NG5
+RUN tar xvzf jdk-7u80-linux-x64.tar.gz
+RUN rm jdk-7u80-linux-x64.tar.gz
+RUN    update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_80/bin/java 100 && \
+       update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_80/bin/javac 100
 
 WORKDIR /usr/local
-RUN tar zxf /usr/local/src/apache-ant-1.9.14-bin.tar.gz && \
+RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.14-bin.tar.gz
+RUN tar zxf /usr/local/apache-ant-1.9.14-bin.tar.gz && \
     echo ANT_HOME=/usr/local/  >> /etc/environment && \
     ln -s /usr/local/apache-ant-1.9.14/bin/ant /usr/bin/ant
 
