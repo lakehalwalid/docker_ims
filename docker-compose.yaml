@@ -47,6 +47,7 @@ services:
     environment:
       - MYSQL_IP=${MYSQL_IP}
       - RTPENGINE_IP=${RTPENGINE_IP}
+      - PCSCF_IP=${PCSCF_IP}
     dns: ${DNS_IP}
     ports:
       - "5060:5060/tcp"
